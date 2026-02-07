@@ -18,18 +18,17 @@ background-color:black;
 overflow:hidden;
 }
 
-/* overlay layout */
+/* overlay positioned lower */
 .overlay{
 background:rgba(0,0,0,0.35);
 height:100%;
 display:flex;
 flex-direction:column;
 align-items:center;
-justify-content:flex-end;   /* push content lower */
-padding-bottom:80px;        /* control text height */
+justify-content:flex-end;
+padding-bottom:80px;
 }
 
-/* text */
 h1{
 white-space:pre-line;
 text-shadow:0 0 10px black;
@@ -82,7 +81,6 @@ z-index:2;
 text-align:center;
 }
 
-/* beating animation */
 @keyframes beat{
 0%{transform:rotate(-45deg) scale(1);}
 50%{transform:rotate(-45deg) scale(1.1);}
@@ -150,7 +148,7 @@ z-index:5;
 
 #scratchText{
 position:absolute;
-top:60%; /* moved lower */
+top:60%;
 left:50%;
 transform:translate(-50%,-50%);
 font-size:30px;
@@ -164,7 +162,7 @@ z-index:6;
 <body>
 
 <div class="overlay">
-<h1 id="text">🎁 Lucky Reward</h1>
+<h1 id="text">🎁 Lucky Reward at end \nTry Hard</h1>
 
 <canvas id="scratchCanvas"></canvas>
 <div id="scratchText">Scratch Here</div>
@@ -172,9 +170,7 @@ z-index:6;
 <div id="buttons" style="display:none; width:100%; height:260px; position:relative;"></div>
 </div>
 
-<audio id="bgmusic" loop>
-<source src="Romantic Bgmusic.mp3" type="audio/mpeg">
-</audio>
+<audio id="bgmusic" loop preload="auto"></audio>
 
 <script>
 
@@ -182,7 +178,7 @@ let step=0;
 let correctIndex=0;
 
 const steps=[
-{img:"rose.png",text:"Kya tum meri Valentine banogi?"},
+{img:"rose.png",text:"Shipra Kya tum meri Valentine banogi?"},
 {img:"rose.png",text:"Haan bologi to gulab dilaunga meri reddii\n🌹"},
 {img:"propose.png",text:"Keh du tumhe ya chup rahun\nDil me mere aaj kya hai\nHaan bolo to jano\nﮩـﮩﮩ٨ـ🫀ﮩ٨ـﮩﮩ٨ـ"},
 {img:"choclate.png",text:"Kuch meetha ‎♡₊˚ 🍫・₊✧ \nho jaye"},
@@ -212,13 +208,13 @@ document.getElementById("text").innerText=steps[step].text;
 
 /* burst */
 function burst(btn){
-for(let i=0;i<10;i++){
+for(let i=0;i<12;i++){
 let p=document.createElement("div");
 p.className="piece";
 p.style.left=(btn.offsetLeft+60)+"px";
 p.style.top=(btn.offsetTop+60)+"px";
-p.style.setProperty("--x",(Math.random()*200-100)+"px");
-p.style.setProperty("--y",(Math.random()*200-100)+"px");
+p.style.setProperty("--x",(Math.random()*220-110)+"px");
+p.style.setProperty("--y",(Math.random()*220-110)+"px");
 document.body.appendChild(p);
 setTimeout(()=>p.remove(),700);
 }
@@ -291,7 +287,7 @@ function finalYes(){
 document.body.style.backgroundImage="url(valentine.png)";
 document.getElementById("buttons").innerHTML="";
 document.getElementById("text").innerHTML=
-'<div class="finalText">You are lucky<br>You redeemed me as coupon<br>I love you \nMy Wifey 🌍♥️🫵🏻</div>';
+'<div class="finalText">You are lucky<br>You redeemed me as coupon<br>I love you\nMy Wifey 🌍♥️🫵🏻</div>';
 }
 
 /* scratch */
@@ -344,7 +340,12 @@ if(cleared>pixels.length/25){
 canvas.style.display="none";
 document.getElementById("scratchText").style.display="none";
 document.getElementById("buttons").style.display="block";
-document.getElementById("bgmusic").play();
+
+/* music mobile safe */
+let music=document.getElementById("bgmusic");
+music.src="Romantic Bgmusic.mp3";
+music.play().catch(()=>{});
+
 showButtons();
 updateScreen();
 }
